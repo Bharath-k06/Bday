@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Vault Encryptor Tool (Offline & Secure)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #d85c80;
+      --primary-hover: #c4476c;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --accent: #38bdf8;
+      --success: #22c55e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    .header { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .header h1 { font-size: 1.8rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 6px; }
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #f1f5f9;
+    }
+    .input-group { margin-bottom: 16px; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+    textarea { min-height: 110px; resize: vertical; }
+    .photo-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .photo-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #1e293b;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-secondary {
+      background: #334155;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      width: auto;
+    }
+    .btn-secondary:hover { background: #475569; }
+    .btn-download {
+      background: var(--success);
+      margin-top: 12px;
+    }
+    .btn-download:hover { background: #16a34a; }
+    .btn-danger {
+      background: #ef4444;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .output-area {
+      margin-top: 20px;
+      display: none;
+    }
+    .note { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Birthday Vault Encryptor <span class="badge">Offline & 100% Secure</span></h1>
+      <p>Select your photos and letter. This tool encrypts everything with AES-256 and exports a clean <code>vault.json</code> file into your project folder. No copy-pasting required.</p>
+    </div>
+
+    <!-- 1. Keys -->
+    <div class="section">
+      <div class="section-title">1. Master Unlock Key</div>
+      <div class="input-group">
+        <label>Master Passphrase (Expected in Niveditha's link: <code>?key=...</code>)</label>
+        <input type="text" id="masterKey" value="niveditha_love_2026" />
+      </div>
+      <div class="input-group">
+        <label>Guest Salt (For Signing Invites)</label>
+        <input type="text" id="guestSalt" value="bday_guest_pass_2026" />
+      </div>
+    </div>
+
+    <!-- 2. Letter -->
+    <div class="section">
+      <div class="section-title">2. Heartfelt Birthday Letter</div>
+      <div class="input-group">
+        <label>Greeting Title</label>
+        <input type="text" id="letterTitle" value="Dearest Niveditha," />
+      </div>
+      <div class="input-group">
+        <label>Date / Subtitle</label>
+        <input type="text" id="letterDate" value="A Wish Made Just For You" />
+      </div>
+      <div class="input-group">
+        <label>Letter Paragraphs (Double newline between paragraphs)</label>
+        <textarea id="letterBody">Happy Birthday! Today is all about celebrating the wonderful, radiant, and endlessly kind person that you are. Having you in my life is the greatest gift, and I wanted to create a little corner on the web just to remind you how deeply special you are.
+
+From the little moments where we laugh without reason to the quiet times when just having you around makes everything better—you bring so much warmth, grace, and happiness wherever you go.
+
+May this new year of your life bring you endless smiles, breathtaking adventures, quiet peace, and every bit of happiness your heart desires.</textarea>
+      </div>
+      <div class="input-group">
+        <label>Signature</label>
+        <input type="text" id="letterSignature" value="With all my love ♥" />
+      </div>
+    </div>
+
+    <!-- 3. Photos -->
+    <div class="section">
+      <div class="section-title">3. Photo Memory Lane (Encrypted Images)</div>
+      <input type="file" id="photoInput" multiple accept="image/*" style="display: none;" />
+      <button type="button" class="btn btn-secondary" onclick="document.getElementById('photoInput').click()">+ Select Photos from Laptop</button>
+      <div id="photosList" style="margin-top: 16px;"></div>
+    </div>
+
+    <!-- 4. Generate -->
+    <button type="button" class="btn" id="encryptBtn">🔒 Encrypt & Create vault.json File</button>
+
+    <!-- 5. Success Box -->
+    <div class="output-area" id="outputArea">
+      <div class="section" style="border-color: var(--success); text-align: center;">
+        <div style="font-size: 2rem; margin-bottom: 8px;">🎉</div>
+        <div class="section-title" style="color: var(--success); justify-content: center;">Vault Encrypted Successfully!</div>
+        <p style="color: #cbd5e1; font-size: 0.95rem;">Click the button below to download <code>vault.json</code>, then simply save it inside your <code>bday-project/</code> folder alongside <code>index.html</code>.</p>
+        <button type="button" class="btn btn-download" id="downloadFileBtn">📥 Download vault.json</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const photos = [];
+
+    document.getElementById('photoInput').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      for (const file of files) {
+        const base64 = await resizeAndConvertToBase64(file, 1200, 0.85);
+        photos.push({
+          id: 'photo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          caption: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+          date: 'Cherished Moment',
+          dataUrl: base64
+        });
+      }
+      renderPhotosList();
+      e.target.value = '';
+    });
+
+    function resizeAndConvertToBase64(file, maxDimension, quality) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width, h = img.height;
+            if (w > maxDimension || h > maxDimension) {
+              if (w > h) {
+                h = Math.round((h * maxDimension) / w);
+                w = maxDimension;
+              } else {
+                w = Math.round((w * maxDimension) / h);
+                h = maxDimension;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderPhotosList() {
+      const list = document.getElementById('photosList');
+      list.innerHTML = '';
+      photos.forEach((p, idx) => {
+        const item = document.createElement('div');
+        item.className = 'photo-item';
+        item.innerHTML = `
+          <img src="${p.dataUrl}" class="photo-preview" />
+          <div>
+            <input type="text" value="${p.caption}" onchange="photos[${idx}].caption = this.value" placeholder="Caption" style="margin-bottom: 6px; padding: 6px 10px; font-size: 0.85rem;" />
+            <input type="text" value="${p.date}" onchange="photos[${idx}].date = this.value" placeholder="Date / Subtitle" style="padding: 6px 10px; font-size: 0.85rem;" />
+          </div>
+          <button type="button" class="btn-danger" onclick="removePhoto(${idx})">✕</button>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    window.removePhoto = (idx) => {
+      photos.splice(idx, 1);
+      renderPhotosList();
+    };
+
+    function bufferToBase64(buffer) {
+      let binary = '';
+      const bytes = new Uint8Array(buffer);
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + chunkSize, bytes.length)));
+      }
+      return btoa(binary);
+    }
+
+    async function encryptPayload(plainObject, passphrase) {
+      const enc = new TextEncoder();
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(passphrase.trim()),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+      );
+
+      const aesKey = await crypto.subtle.deriveKey(
+        {
+          name: 'PBKDF2',
+          salt: salt,
+          iterations: 100000,
+          hash: 'SHA-256'
+        },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['encrypt']
+      );
+
+      const encryptedBuffer = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv: iv },
+        aesKey,
+        enc.encode(JSON.stringify(plainObject))
+      );
+
+      return {
+        salt: bufferToBase64(salt),
+        iv: bufferToBase64(iv),
+        ciphertext: bufferToBase64(encryptedBuffer)
+      };
+    }
+
+    let generatedBlobUrl = null;
+
+    document.getElementById('encryptBtn').addEventListener('click', async () => {
+      const masterKey = document.getElementById('masterKey').value.trim();
+      const guestSalt = document.getElementById('guestSalt').value.trim();
+      const letterTitle = document.getElementById('letterTitle').value.trim();
+      const letterDate = document.getElementById('letterDate').value.trim();
+      const letterBody = document.getElementById('letterBody').value.trim();
+      const letterSignature = document.getElementById('letterSignature').value.trim();
+
+      if (!masterKey) {
+        alert('Please enter a Master Key.');
+        return;
+      }
+
+      const payload = {
+        meta: { guestSalt: guestSalt, createdAt: new Date().toISOString() },
+        letter: {
+          title: letterTitle,
+          date: letterDate,
+          paragraphs: letterBody.split('\n\n').filter(p => p.trim()),
+          signature: letterSignature
+        },
+        photos: photos
+      };
+
+      const btn = document.getElementById('encryptBtn');
+      btn.textContent = '⏳ Encrypting with AES-256-GCM...';
+      btn.disabled = true;
+
+      try {
+        const encryptedBundle = await encryptPayload(payload, masterKey);
+        const jsonStr = JSON.stringify(encryptedBundle, null, 2);
+        
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        generatedBlobUrl = URL.createObjectURL(blob);
+
+        document.getElementById('outputArea').style.display = 'block';
+        document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        alert('Encryption failed: ' + err.message);
+      } finally {
+        btn.textContent = '🔒 Encrypt & Create vault.json File';
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('downloadFileBtn').addEventListener('click', () => {
+      if (!generatedBlobUrl) return;
+      const a = document.createElement('a');
+      a.href = generatedBlobUrl;
+      a.download = 'vault.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  </script>
+</body>
+</html>

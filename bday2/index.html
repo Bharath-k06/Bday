@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>A Special Delivery ✨</title>
+
+  <!-- Typography: Cormorant Garamond (Editorial Serif), Great Vibes (Cursive), Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Confetti Cannon -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       THEME & DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fff5f8 0%, #fdf0f4 50%, #f9e5ec 100%);
+      --blush-50: #fff9fa;
+      --blush-100: #ffe8ee;
+      --blush-200: #ffd0dc;
+      --blush-400: #f48fb1;
+      --blush-500: #e57399;
+      --rose-gold: #c9828e;
+      --gold-accent: #d4af37;
+      --text-main: #3d2c35;
+      --text-muted: #7d6572;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(244, 143, 177, 0.25);
+      --shadow-soft: 0 10px 30px -5px rgba(229, 115, 153, 0.15);
+      --shadow-hover: 0 20px 40px -8px rgba(201, 130, 142, 0.28);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-cursive: 'Great Vibes', cursive;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* Anti-Theft & Protection Rules on Media */
+    .protected-media {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      -khtml-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      pointer-events: auto;
+    }
+
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ==========================================================================
+       LOCK SCREEN / ZERO-CREDENTIAL GATEKEEPER
+       ========================================================================== */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-gradient);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .lock-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      padding: 44px 32px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      max-width: 440px;
+      width: 100%;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .lock-icon-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--blush-100);
+      color: var(--blush-500);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 20px rgba(229, 115, 153, 0.2);
+    }
+
+    .lock-card h2 {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .lock-card p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       MAIN APP SHELL
+       ========================================================================== */
+    .app-container {
+      display: none; /* Displayed only when authenticated */
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 20px 80px;
+    }
+
+    .cursive-tag {
+      font-family: var(--font-cursive);
+      font-size: 2.3rem;
+      color: var(--blush-500);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 580px;
+      margin: 0 auto 40px;
+    }
+
+    .badge-guest {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      font-size: 0.88rem;
+      color: var(--rose-gold);
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* ==========================================================================
+       HERO SECTION: 3D ENVELOPE
+       ========================================================================== */
+    .hero-section {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      margin: 24px auto 32px;
+      perspective: 1200px;
+      cursor: pointer;
+      animation: floatEnvelope 4s ease-in-out infinite;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f8c1ce;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 20px 45px rgba(229, 115, 153, 0.28);
+      transition: transform 0.4s ease;
+    }
+
+    .envelope-wrapper:hover .envelope {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 120px solid #efa5b8;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+      z-index: 5;
+    }
+
+    .envelope-pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f4b2c2;
+      clip-path: polygon(0% 100%, 50% 45%, 100% 100%);
+      border-radius: 0 0 16px 16px;
+      z-index: 4;
+    }
+
+    .envelope-side-flaps {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f1a4b6;
+      clip-path: polygon(0% 0%, 0% 100%, 50% 50%, 100% 100%, 100% 0%, 50% 45%);
+      border-radius: 0 0 16px 16px;
+      z-index: 3;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      top: 95px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      background: radial-gradient(circle, #f39aa8 0%, #d45973 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 14px rgba(180, 50, 80, 0.35);
+      z-index: 6;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      transition: opacity 0.4s ease, transform 0.3s ease;
+    }
+
+    .envelope-letter-peek {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      right: 20px;
+      height: 180px;
+      background: #ffffff;
+      border-radius: 10px;
+      z-index: 2;
+      padding: 18px 15px;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--blush-400);
+    }
+
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-wrapper.open .envelope-seal {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .envelope-wrapper.open .envelope-letter-peek {
+      transform: translateY(-80px);
+    }
+
+    .tap-envelope-hint {
+      font-size: 0.92rem;
+      color: var(--blush-500);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 30px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--card-border);
+    }
+
+    /* ==========================================================================
+       LETTER MODAL (DECRYPTED ON FLY)
+       ========================================================================== */
+    .letter-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(61, 44, 53, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .letter-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .letter-paper {
+      background: #fffdf9;
+      width: 100%;
+      max-width: 640px;
+      max-height: 88vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: clamp(30px, 6vw, 55px);
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .letter-modal-overlay.active .letter-paper {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--blush-100);
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--blush-400);
+      color: #fff;
+      transform: rotate(90deg);
+    }
+
+    .letter-header {
+      text-align: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--blush-200);
+      padding-bottom: 18px;
+    }
+
+    .letter-header h2 {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      color: var(--text-main);
+    }
+
+    .letter-body {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: #4a3b42;
+      line-height: 1.85;
+      margin-bottom: 30px;
+    }
+
+    .letter-body p {
+      margin-bottom: 18px;
+      text-indent: 1.2em;
+    }
+
+    .letter-body p:first-of-type { text-indent: 0; }
+
+    .letter-signature {
+      text-align: right;
+      font-family: var(--font-cursive);
+      font-size: 2.6rem;
+      color: var(--blush-500);
+    }
+
+    /* ==========================================================================
+       REASONS I LOVE YOU (3D FLIP CARDS)
+       ========================================================================== */
+    .reasons-section {
+      padding: 70px 0 50px;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      perspective: 1000px;
+    }
+
+    .flip-card {
+      height: 275px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .flip-card.flipped .flip-card-inner,
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: var(--radius-lg);
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--card-border);
+    }
+
+    .flip-card-front {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+    }
+
+    .card-icon-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--blush-100);
+      color: var(--blush-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(229, 115, 153, 0.15);
+    }
+
+    .flip-card-front h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .card-hint {
+      font-size: 0.8rem;
+      color: var(--rose-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+    }
+
+    .flip-card-back {
+      background: linear-gradient(135deg, #fff0f4 0%, #ffe3ec 100%);
+      transform: rotateY(180deg);
+      border-color: var(--blush-400);
+    }
+
+    .flip-card-back p {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #4a343e;
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       PHOTO MEMORY LANE (CANVAS SHIELD PROTECTED)
+       ========================================================================== */
+    .gallery-section {
+      padding: 70px 0;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .polaroid-card {
+      background: #ffffff;
+      padding: 16px 16px 22px;
+      border-radius: 6px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .polaroid-card::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75px;
+      height: 24px;
+      background: rgba(244, 143, 177, 0.45);
+      border-radius: 2px;
+      backdrop-filter: blur(2px);
+    }
+
+    .polaroid-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      background: #fdf5f7;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* Direct Canvas Elements (No raw img tags on DOM) */
+    .protected-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .canvas-shield-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background: transparent;
+    }
+
+    .polaroid-title {
+      margin-top: 14px;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .polaroid-sub {
+      font-size: 0.85rem;
+      color: var(--rose-gold);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       VIP GUEST SHARE FAB & MODAL
+       ========================================================================== */
+    .vip-share-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #f48fb1, #d85c80);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 50px;
+      box-shadow: var(--shadow-hover);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      z-index: 90;
+      display: none; /* Displayed only for Sukanya */
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .vip-share-fab:hover { transform: scale(1.05); }
+
+    .share-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(61, 44, 53, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .share-modal-overlay.active { display: flex; }
+
+    .share-box {
+      background: white;
+      padding: 34px 28px;
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .share-box h3 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .share-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--blush-200);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      margin: 16px 0;
+      outline: none;
+    }
+
+    .share-input:focus { border-color: var(--blush-500); }
+
+    .btn-action {
+      width: 100%;
+      background: var(--blush-500);
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover { background: #d85c80; }
+
+    .link-result-box {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--blush-100);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      word-break: break-all;
+    }
+
+    /* Wish Button & Celebration */
+    .celebration-section {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .wish-btn {
+      background: linear-gradient(135deg, #f48fb1, #d85c80);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(216, 92, 128, 0.35);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wish-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 16px 32px rgba(216, 92, 128, 0.45);
+    }
+
+    /* Music Toggle */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 90;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--blush-500);
+      font-size: 1.1rem;
+    }
+
+    @keyframes floatEnvelope {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .envelope-wrapper { width: 280px; height: 195px; }
+      .envelope-flap { border-left-width: 140px; border-right-width: 140px; border-top-width: 105px; }
+      .envelope-seal { top: 85px; width: 48px; height: 48px; }
+      .letter-paper { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body class="protected-media">
+
+  <!-- Ambient Particle Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Background Music Player -->
+  <button class="music-btn" id="musicToggleBtn" title="Toggle Music"><i class="fa-solid fa-music"></i></button>
+  <audio id="bgAudio" loop>
+    <source src="https://actions.google.com/sounds/v1/water/rain_heavy.ogg" type="audio/ogg" />
+  </audio>
+
+  <!-- ======================================================================
+       1. GATEKEEPER / LOCK SCREEN (Unauthenticated Visitors)
+       ====================================================================== -->
+  <div id="lock-screen">
+    <div class="lock-card">
+      <div class="lock-icon-circle"><i class="fa-solid fa-envelope"></i></div>
+      <h2>A Special Delivery</h2>
+      <p>This space is reserved for a private celebration. If you were sent a personal invitation link, please use the exact link provided.</p>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       2. AUTHENTICATED APP CONTAINER
+       ====================================================================== -->
+  <div class="app-container" id="appRoot">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div id="guestGreetingBadge" class="badge-guest" style="display: none;">
+        <i class="fa-solid fa-sparkles"></i> Welcome, <span id="guestDisplayName"></span>
+      </div>
+      <span class="cursive-tag">Happy Birthday</span>
+      <h1 class="section-title">A Special Delivery for Sukanya</h1>
+      <p class="section-subtitle">There's a letter sealed with love waiting for you below.</p>
+
+      <div class="envelope-wrapper" id="envelopeWrapper" role="button" aria-label="Open Letter">
+        <div class="envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-side-flaps"></div>
+          <div class="envelope-pocket"></div>
+          <div class="envelope-seal"><i class="fa-solid fa-heart"></i></div>
+          <div class="envelope-letter-peek">
+            <i class="fa-solid fa-envelope-open-text" style="color: var(--blush-400); font-size: 1.8rem; margin-bottom: 8px;"></i>
+            <span style="font-family: var(--font-serif); font-weight: 600; color: var(--rose-gold);">To My Favorite Person</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tap-envelope-hint">
+        <i class="fa-regular fa-hand-pointer"></i> Tap the envelope to open
+      </div>
+    </section>
+
+    <!-- Popup Decrypted Letter Modal -->
+    <div class="letter-modal-overlay" id="letterModal">
+      <div class="letter-paper">
+        <button class="modal-close-btn" id="closeLetterBtn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="letter-header">
+          <h2 id="decryptedLetterTitle">Dearest Sukanya,</h2>
+          <div id="decryptedLetterDate" style="font-size: 0.9rem; color: var(--rose-gold);">A Wish Made Just For You</div>
+        </div>
+        <div class="letter-body" id="decryptedLetterBody">
+          <!-- Populated dynamically upon AES-256 decryption -->
+        </div>
+        <div class="letter-signature" id="decryptedLetterSignature">With all my love &hearts;</div>
+      </div>
+    </div>
+
+    <!-- Reasons I Love You Grid -->
+    <section class="reasons-section">
+      <span class="cursive-tag" style="text-align: center;">Little Reminders</span>
+      <h2 class="section-title">Six Things I Adore About You</h2>
+      <p class="section-subtitle">Tap each card to reveal what makes you so irreplaceable.</p>
+      
+      <div class="reasons-grid">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-face-smile-beam"></i></div>
+              <h3>Your Radiant Smile</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"The way your face lights up when you're genuinely happy brings warmth to everyone around you."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-hand-holding-heart"></i></div>
+              <h3>Your Golden Heart</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"You treat everyone with such gentle empathy and quiet kindness. You make the world softer."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+              <h3>Your Laugh</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"Hearing your genuine laugh is my favorite sound in the world. It turns ordinary days into memories."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-mug-hot"></i></div>
+              <h3>Our Conversations</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"Those simple talks where time slips away and we can share everything and anything."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-compass"></i></div>
+              <h3>Your Strength</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"I admire how determined you are, facing every challenge with quiet courage and grace."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-infinity"></i></div>
+              <h3>Just Being You</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"You don't have to try to be extraordinary; you simply are, just by being yourself."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo Memory Lane (Rendered into Canvas Shields) -->
+    <section class="gallery-section">
+      <span class="cursive-tag" style="text-align: center;">Cherished Moments</span>
+      <h2 class="section-title">Our Memory Lane</h2>
+      <p class="section-subtitle">Rendered securely in real-time memory.</p>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Rendered dynamically from decrypted payload into protected canvas elements -->
+      </div>
+    </section>
+
+    <!-- Celebration Wish Button -->
+    <section class="celebration-section">
+      <button class="wish-btn" id="wishBtn">
+        <i class="fa-solid fa-cake-candles"></i> Make a Birthday Wish!
+      </button>
+      <div style="margin-top: 40px; font-size: 0.95rem; color: var(--text-muted);">
+        Crafted with <i class="fa-solid fa-heart" style="color: #e57399;"></i> exclusively for Sukanya.
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================================================================
+       3. VIP IN-APP GUEST LINK GENERATOR (Exclusively for Sukanya)
+       ====================================================================== -->
+  <button class="vip-share-fab" id="vipShareFab">
+    <i class="fa-solid fa-user-plus"></i> Share With Loved Ones
+  </button>
+
+  <div class="share-modal-overlay" id="shareModal">
+    <div class="share-box">
+      <button class="modal-close-btn" id="closeShareModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      <h3>Invite a Loved One</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Generate a personal invitation link for friends or family.</p>
+      
+      <input type="text" class="share-input" id="guestNameInput" placeholder="Enter guest's name (e.g. Ananya)" />
+      <button type="button" class="btn-action" id="createGuestPassBtn">Generate Guest Pass Link</button>
+
+      <div class="link-result-box" id="linkResultBox">
+        <div id="generatedLinkUrl" style="font-weight: 500;"></div>
+        <button type="button" class="btn-action" id="copyGuestLinkBtn" style="margin-top: 10px; padding: 8px;">📋 Copy Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SOLID ARCHITECTURE JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    /**
+     * =========================================================================
+     * 1. CONFIGURATION & SECURE ENCRYPTED VAULT PAYLOAD
+     * =========================================================================
+     */
+    const CONFIG = {
+      // Paste your Discord Webhook URL below
+      DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1538566885245980717/6DnKDyOaKYA3Hn10aMS34b4y-lFRhEiHX2pAMNnMZIeKMI8BQgmDJJeOCUxpHRctpfT3",
+
+      // Master Secret Key (Expected in Sukanya's link: ?key=sukanya_2026)
+      MASTER_KEY_DEFAULT: "sukanya_2026",
+
+      // Salt for Guest HMAC/Signature checking
+      GUEST_SALT: "bday_guest_pass_2026"
+    };
+
+    /**
+     * Paste the JSON output from encryptor.html here.
+     * When unencrypted fallback data is used for testing, this structure is ready.
+     */
+    const ENCRYPTED_VAULT_DATA = null;
+
+    /**
+     * Fallback Unencrypted Data (Used automatically if ENCRYPTED_VAULT_DATA is null)
+     */
+    const FALLBACK_DATA = {
+      letter: {
+        title: "Dearest Sukanya,",
+        date: "A Wish Made Just For You",
+        paragraphs: [
+          "Happy Birthday! Today is all about celebrating the wonderful, radiant, and endlessly kind person that you are.",
+          "From quiet laughs to unforgettable conversations, having you in my life makes every day brighter and warmer.",
+          "May this year bring you all the success, joy, and peace in the world."
+        ],
+        signature: "With all my love ♥"
+      },
+      photos: [
+        {
+          id: "p1",
+          caption: "Sunny Days & Laughter",
+          date: "Where It All Began",
+          dataUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+          id: "p2",
+          caption: "Adventures & Quiet Moments",
+          date: "Pure Happiness",
+          dataUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80"
+        }
+      ]
+    };
+
+    /**
+     * =========================================================================
+     * 2. CRYPTOGRAPHIC & TOKEN SERVICE
+     * =========================================================================
+     */
+    class CryptoService {
+      static generateGuestToken(guestName, salt) {
+        let hash = 0;
+        const str = guestName.trim().toLowerCase() + "_" + salt;
+        for (let i = 0; i < str.length; i++) {
+          hash = (hash << 5) - hash + str.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash).toString(36);
+      }
+
+      static async decryptVault(encryptedBundle, passphrase) {
+        if (!encryptedBundle || !encryptedBundle.ciphertext) {
+          return FALLBACK_DATA;
+        }
+
+        const fromB64 = (str) => {
+          const binary = atob(str);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+          return bytes;
+        };
+        const salt = fromB64(encryptedBundle.salt);
+        const iv = fromB64(encryptedBundle.iv);
+        const ciphertext = fromB64(encryptedBundle.ciphertext);
+
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+          'raw',
+          enc.encode(passphrase.trim()),
+          'PBKDF2',
+          false,
+          ['deriveKey']
+        );
+
+        const aesKey = await crypto.subtle.deriveKey(
+          {
+            name: 'PBKDF2',
+            salt: salt,
+            iterations: 100000,
+            hash: 'SHA-256'
+          },
+          keyMaterial,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['decrypt']
+        );
+
+        const decryptedBuffer = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: iv },
+          aesKey,
+          ciphertext
+        );
+
+        const dec = new TextDecoder();
+        return JSON.parse(dec.decode(decryptedBuffer));
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 3. REAL-TIME VISITOR TELEMETRY SERVICE
+     * =========================================================================
+     */
+    class TelemetryService {
+      static async reportVisit(visitorType, displayName, isGranted) {
+        if (!CONFIG.DISCORD_WEBHOOK_URL || !CONFIG.DISCORD_WEBHOOK_URL.startsWith("https://")) {
+          return;
+        }
+
+        let city = "Unknown", country = "Unknown";
+        try {
+          const res = await fetch("https://ipapi.co/json/");
+          if (res.ok) {
+            const data = await res.json();
+            city = data.city || "Unknown";
+            country = data.country_name || "Unknown";
+          }
+        } catch (e) {
+          // Silent fallback on adblocker
+        }
+
+        const embedColor = isGranted 
+          ? (visitorType === "Sukanya (VIP)" ? 0xf48fb1 : 0x48bb78) 
+          : 0xe53e3e;
+
+        const payload = {
+          embeds: [{
+            title: isGranted ? "💌 Birthday Site Opened!" : "⛔ Blocked Intruder Attempt",
+            color: embedColor,
+            fields: [
+              { name: "Visitor", value: `**${displayName}** (${visitorType})`, inline: true },
+              { name: "Access", value: isGranted ? "✅ Granted" : "❌ Blocked", inline: true },
+              { name: "Location", value: `${city}, ${country}`, inline: true },
+              { name: "Device", value: navigator.userAgent.includes("Mobile") ? "📱 Smartphone" : "💻 Computer", inline: true },
+              { name: "Screen Resolution", value: `${window.innerWidth} × ${window.innerHeight}`, inline: true },
+              { name: "Timestamp", value: new Date().toLocaleString(), inline: false }
+            ],
+            footer: { text: "Birthday Access Guard" }
+          }]
+        };
+
+        try {
+          fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.error("Telemetry failed:", err);
+        }
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 4. CANVAS PROTECTED IMAGE RENDERER
+     * =========================================================================
+     */
+    class CanvasMediaRenderer {
+      static renderToCanvas(containerElement, photoData) {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card protected-media';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'canvas-wrapper';
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'protected-canvas';
+        canvas.width = 600;
+        canvas.height = 500;
+
+        const shield = document.createElement('div');
+        shield.className = 'canvas-shield-overlay';
+
+        wrapper.appendChild(canvas);
+        wrapper.appendChild(shield);
+
+        const title = document.createElement('div');
+        title.className = 'polaroid-title';
+        title.textContent = photoData.caption;
+
+        const sub = document.createElement('div');
+        sub.className = 'polaroid-sub';
+        sub.textContent = photoData.date;
+
+        card.appendChild(wrapper);
+        card.appendChild(title);
+        card.appendChild(sub);
+        containerElement.appendChild(card);
+
+        // Draw image directly onto canvas
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+        img.src = photoData.dataUrl;
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 5. AMBIENT PARTICLES SYSTEM
+     * =========================================================================
+     */
+    class AmbientParticles {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        for (let i = 0; i < 26; i++) this.particles.push(new this.Particle(this.width, this.height));
+        this.animate = this.animate.bind(this);
+        requestAnimationFrame(this.animate);
+      }
+
+      resize() {
+        this.width = this.canvas.width = window.innerWidth;
+        this.height = this.canvas.height = window.innerHeight;
+      }
+
+      get Particle() {
+        return class {
+          constructor(w, h) {
+            this.w = w; this.h = h;
+            this.reset();
+          }
+          reset() {
+            this.x = Math.random() * this.w;
+            this.y = this.h + Math.random() * 40;
+            this.size = Math.random() * 10 + 5;
+            this.speedY = Math.random() * 0.7 + 0.3;
+            this.speedX = (Math.random() - 0.5) * 0.4;
+            this.opacity = Math.random() * 0.35 + 0.15;
+          }
+          update() {
+            this.y -= this.speedY;
+            this.x += this.speedX;
+            if (this.y < -20) this.reset();
+          }
+          draw(ctx) {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.globalAlpha = this.opacity;
+            ctx.fillStyle = "#f48fb1";
+            ctx.beginPath();
+            const topH = this.size * 0.3;
+            ctx.moveTo(0, topH);
+            ctx.bezierCurveTo(-this.size / 2, -topH, -this.size, topH / 3, 0, this.size);
+            ctx.bezierCurveTo(this.size, topH / 3, this.size / 2, -topH, 0, topH);
+            ctx.fill();
+            ctx.restore();
+          }
+        };
+      }
+
+      animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.particles.forEach(p => { p.update(); p.draw(this.ctx); });
+        requestAnimationFrame(this.animate);
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 6. APPLICATION CONTROLLER & INITIALIZATION
+     * =========================================================================
+     */
+    document.addEventListener("DOMContentLoaded", async () => {
+      new AmbientParticles('ambient-canvas');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlKey = urlParams.get("key");
+      const guestName = urlParams.get("guest");
+      const guestKey = urlParams.get("k");
+      const guestToken = urlParams.get("token");
+
+      let isSukanya = false;
+      let isGuest = false;
+      let displayName = "Anonymous";
+      let decryptionKey = CONFIG.MASTER_KEY_DEFAULT;
+
+      // VIP Identification
+      if (urlKey === CONFIG.MASTER_KEY_DEFAULT || localStorage.getItem("Sukanya_vip_session") === "true") {
+        isSukanya = true;
+        displayName = "Sukanya";
+        localStorage.setItem("Sukanya_vip_session", "true");
+        if (urlKey) decryptionKey = urlKey;
+      } 
+      // Guest Identification
+      else if (guestName && guestToken) {
+        const expectedToken = CryptoService.generateGuestToken(guestName, CONFIG.GUEST_SALT);
+        if (guestToken === expectedToken) {
+          isGuest = true;
+          displayName = guestName;
+          if (guestKey) decryptionKey = guestKey; // Automatically decrypts vault for invited guests
+        }
+      }
+
+      const lockScreen = document.getElementById("lock-screen");
+      const appRoot = document.getElementById("appRoot");
+      const vipShareFab = document.getElementById("vipShareFab");
+      const guestGreetingBadge = document.getElementById("guestGreetingBadge");
+      const guestDisplayName = document.getElementById("guestDisplayName");
+
+      // Authorization Gate
+      if (isSukanya || isGuest) {
+        lockScreen.style.display = "none";
+        appRoot.style.display = "block";
+
+        if (isSukanya) {
+          vipShareFab.style.display = "inline-flex";
+          TelemetryService.reportVisit("Sukanya (VIP)", "Sukanya", true);
+        } else {
+          guestGreetingBadge.style.display = "inline-flex";
+          guestDisplayName.textContent = displayName;
+          TelemetryService.reportVisit("Guest", displayName, true);
+        }
+
+        // Decrypt and Populate Vault Content
+        try {
+          let vaultDataToDecrypt = ENCRYPTED_VAULT_DATA;
+          if (!vaultDataToDecrypt) {
+            try {
+              const res = await fetch('./vault.json');
+              if (res.ok) {
+                vaultDataToDecrypt = await res.json();
+              }
+            } catch (fetchErr) {
+              console.log("No external vault.json found, using inline/fallback");
+            }
+          }
+
+          const vault = await CryptoService.decryptVault(vaultDataToDecrypt, decryptionKey);
+
+          // Populate Letter
+          document.getElementById('decryptedLetterTitle').textContent = vault.letter.title;
+          document.getElementById('decryptedLetterDate').textContent = vault.letter.date;
+          document.getElementById('decryptedLetterSignature').textContent = vault.letter.signature;
+          
+          const letterBody = document.getElementById('decryptedLetterBody');
+          letterBody.innerHTML = '';
+          vault.letter.paragraphs.forEach(p => {
+            const pEl = document.createElement('p');
+            pEl.textContent = p;
+            letterBody.appendChild(pEl);
+          });
+
+          // Render Photos to Protected Canvas
+          const galleryGrid = document.getElementById('galleryGrid');
+          galleryGrid.innerHTML = '';
+          vault.photos.forEach(photo => {
+            CanvasMediaRenderer.renderToCanvas(galleryGrid, photo);
+          });
+        } catch (err) {
+          console.error("Decryption error:", err);
+        }
+      } else {
+        lockScreen.style.display = "flex";
+        appRoot.style.display = "none";
+        TelemetryService.reportVisit("Uninvited Visitor", "Unknown", false);
+      }
+
+      /* ------------------------------------------------------------------------
+         UI INTERACTIONS & EVENT LISTENERS
+         ------------------------------------------------------------------------ */
+      // 3D Envelope Open
+      const envelopeWrapper = document.getElementById("envelopeWrapper");
+      const letterModal = document.getElementById("letterModal");
+      const closeLetterBtn = document.getElementById("closeLetterBtn");
+
+      envelopeWrapper.addEventListener("click", () => {
+        envelopeWrapper.classList.add("open");
+        if (typeof confetti === "function") {
+          confetti({
+            particleCount: 75,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#f48fb1", "#ffd0dc", "#d4af37", "#ffffff", "#e57399"]
+          });
+        }
+        setTimeout(() => letterModal.classList.add("active"), 600);
+      });
+
+      closeLetterBtn.addEventListener("click", () => letterModal.classList.remove("active"));
+      letterModal.addEventListener("click", (e) => {
+        if (e.target === letterModal) letterModal.classList.remove("active");
+      });
+
+      // Flip Cards
+      document.querySelectorAll(".flip-card").forEach(card => {
+        card.addEventListener("click", () => card.classList.toggle("flipped"));
+      });
+
+      // Celebration Button
+      document.getElementById("wishBtn").addEventListener("click", () => {
+        if (typeof confetti === "function") {
+          confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+        }
+      });
+
+      // Audio Toggle
+      const musicBtn = document.getElementById("musicToggleBtn");
+      const bgAudio = document.getElementById("bgAudio");
+      let isPlaying = false;
+      musicBtn.addEventListener("click", () => {
+        if (!isPlaying) {
+          bgAudio.play().then(() => {
+            isPlaying = true;
+            musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+          }).catch(() => {});
+        } else {
+          bgAudio.pause();
+          isPlaying = false;
+          musicBtn.innerHTML = '<i class="fa-solid fa-music"></i>';
+        }
+      });
+
+      // Anti-Theft: Disable Context Menu on Media
+      document.addEventListener("contextmenu", (e) => {
+        if (e.target.closest(".protected-media")) e.preventDefault();
+      });
+
+      /* ------------------------------------------------------------------------
+         VIP GUEST PASS CREATOR (Modal Logic)
+         ------------------------------------------------------------------------ */
+      const shareModal = document.getElementById("shareModal");
+      const closeShareModalBtn = document.getElementById("closeShareModalBtn");
+      const createGuestPassBtn = document.getElementById("createGuestPassBtn");
+      const guestNameInput = document.getElementById("guestNameInput");
+      const linkResultBox = document.getElementById("linkResultBox");
+      const generatedLinkUrl = document.getElementById("generatedLinkUrl");
+      const copyGuestLinkBtn = document.getElementById("copyGuestLinkBtn");
+
+      vipShareFab.addEventListener("click", () => shareModal.classList.add("active"));
+      closeShareModalBtn.addEventListener("click", () => shareModal.classList.remove("active"));
+
+      createGuestPassBtn.addEventListener("click", () => {
+        const name = guestNameInput.value.trim();
+        if (!name) return alert("Please enter a name");
+
+        const token = CryptoService.generateGuestToken(name, CONFIG.GUEST_SALT);
+        const baseUrl = window.location.origin + window.location.pathname;
+        const passUrl = `${baseUrl}?guest=${encodeURIComponent(name)}&k=${encodeURIComponent(decryptionKey)}&token=${token}`;
+
+        generatedLinkUrl.textContent = passUrl;
+        linkResultBox.style.display = "block";
+      });
+
+      copyGuestLinkBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(generatedLinkUrl.textContent);
+        copyGuestLinkBtn.textContent = "✅ Copied!";
+        setTimeout(() => copyGuestLinkBtn.textContent = "📋 Copy Link", 2000);
+      });
+    });
+  </script>
+</body>
+</html>
