@@ -1,4 +1,4 @@
-# Niveditha's Birthday Celebration Web Project ✨
+# Person's Birthday Celebration Web Project ✨
 
 A production-ready, zero-cost, zero-credential birthday website featuring AES-256 client-side encrypted assets, 3D envelope animation, canvas image shielding, real-time Discord visitor telemetry, and an in-app guest pass generator.
 
@@ -20,7 +20,7 @@ bday-project/
 
 ### Step 1: Encrypt Your Photos & Letter Offline
 1. Double-click `encryptor.html` to open it in your browser.
-2. Set your **Master Passphrase** (e.g. `niveditha_love_2026`).
+2. Set your **Master Passphrase** (e.g. `Person_love_2026`).
 3. Select your photos from your laptop.
 4. Customize your personal birthday letter text.
 5. Click **"🔒 Encrypt & Create vault.json File"**.
@@ -47,19 +47,19 @@ python3 -m http.server 8000
 ```
 Open your browser to:
 - **Locked Test**: `http://localhost:8000` (Verifies uninvited visitors see the locked gatekeeper).
-- **VIP Unlock Test**: `http://localhost:8000/?key=niveditha_love_2026` (Unlocks full experience, decrypts photos in RAM, and triggers Discord alert).
+- **VIP Unlock Test**: `http://localhost:8000/?key=Person_love_2026` (Unlocks full experience, decrypts photos in RAM, and triggers Discord alert).
 
 ---
 
 ### Step 4: Free 1-Click Deployment (Netlify Drop)
 1. Go to [Netlify Drop](https://app.netlify.com/drop).
 2. Drag and drop the `bday-project` folder containing `index.html` and `vault.json`.
-3. Netlify will provide your live HTTPS URL (e.g. `https://special-delivery-niveditha.netlify.app`).
+3. Netlify will provide your live HTTPS URL (e.g. `https://special-delivery-Person.netlify.app`).
 
 ---
 
 ### 💌 Sending the Magic Link
-Send Niveditha her personal VIP link:
+Send Person her personal VIP link:
 ```text
-https://your-site-name.netlify.app/?key=niveditha_love_2026
+https://your-site-name.netlify.app/?key=Person_love_2026
 ```
