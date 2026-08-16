@@ -8,7 +8,7 @@
   <!-- Typography: Cormorant Garamond (Editorial Serif), Great Vibes (Cursive), Plus Jakarta Sans (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -143,7 +143,7 @@
        MAIN APP SHELL
        ========================================================================== */
     .app-container {
-      display: none; /* Displayed only when authenticated */
+      display: none;
       position: relative;
       z-index: 2;
       max-width: 1100px;
@@ -195,7 +195,7 @@
        HERO SECTION: 3D ENVELOPE
        ========================================================================== */
     .hero-section {
-      min-height: 85vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -333,7 +333,7 @@
     }
 
     /* ==========================================================================
-       LETTER MODAL (DECRYPTED ON FLY)
+       LETTER MODAL
        ========================================================================== */
     .letter-modal-overlay {
       position: fixed;
@@ -344,7 +344,7 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 100;
+      z-index: 1000;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -376,26 +376,28 @@
 
     .modal-close-btn {
       position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 38px;
-      height: 38px;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: var(--blush-100);
-      border: none;
+      border: 1px solid var(--card-border);
       color: var(--text-main);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       transition: all 0.2s ease;
+      z-index: 20;
+      touch-action: manipulation;
     }
 
-    .modal-close-btn:hover {
+    .modal-close-btn:hover, .modal-close-btn:active {
       background: var(--blush-400);
       color: #fff;
-      transform: rotate(90deg);
+      transform: scale(1.08);
     }
 
     .letter-header {
@@ -437,7 +439,7 @@
        REASONS I LOVE YOU (3D FLIP CARDS)
        ========================================================================== */
     .reasons-section {
-      padding: 70px 0 50px;
+      padding: 60px 0 40px;
     }
 
     .reasons-grid {
@@ -451,6 +453,7 @@
       height: 275px;
       perspective: 1000px;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     .flip-card-inner {
@@ -534,10 +537,10 @@
     }
 
     /* ==========================================================================
-       PHOTO MEMORY LANE (CANVAS SHIELD PROTECTED)
+       PHOTO MEMORY LANE
        ========================================================================== */
     .gallery-section {
-      padding: 70px 0;
+      padding: 60px 0;
     }
 
     .gallery-grid {
@@ -584,7 +587,6 @@
       overflow: hidden;
     }
 
-    /* Direct Canvas Elements (No raw img tags on DOM) */
     .protected-canvas {
       width: 100%;
       height: 100%;
@@ -613,6 +615,248 @@
       margin-top: 2px;
     }
 
+    /* Celebration Wish Button */
+    .celebration-section {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
+
+    .wish-btn {
+      background: linear-gradient(135deg, #f48fb1, #d85c80);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(216, 92, 128, 0.35);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      touch-action: manipulation;
+    }
+
+    .wish-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 16px 32px rgba(216, 92, 128, 0.45);
+    }
+
+    /* ==========================================================================
+       SPOTABLE & CUTE FLOATING TREAT WIDGET (SUKANYA EXCLUSIVE)
+       ========================================================================== */
+    .vip-treat-fab {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe3ec 100%);
+      border: 1.5px solid var(--blush-400);
+      padding: 8px 16px 8px 12px;
+      border-radius: 50px;
+      box-shadow: 0 10px 28px rgba(229, 115, 153, 0.35);
+      display: none; /* Displayed only for Sukanya */
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      z-index: 95;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: gentleBounce 3s ease-in-out infinite;
+      touch-action: manipulation;
+    }
+
+    .vip-treat-fab:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 14px 34px rgba(229, 115, 153, 0.45);
+    }
+
+    .fab-gift-icon-bubble {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f48fb1, #d85c80);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 10px rgba(216, 92, 128, 0.3);
+    }
+
+    .fab-gift-text {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .fab-gift-badge {
+      background: #d85c80;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Treat Modal / Gift Voucher Booklet */
+    .treat-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(61, 44, 53, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .treat-modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .treat-modal-box {
+      background: linear-gradient(135deg, #ffffff 0%, #fff6f9 100%);
+      padding: clamp(26px, 5vw, 36px);
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      border: 1.5px solid var(--blush-200);
+      text-align: center;
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .treat-modal-overlay.active .treat-modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .treat-modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: #ffe3ec;
+      border: 1px solid var(--blush-400);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--blush-500);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .treat-modal-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .treat-modal-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .points-mini-box {
+      background: #fff0f5;
+      border: 1px dashed var(--blush-400);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 18px;
+    }
+
+    .points-mini-amount {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--blush-500);
+      font-family: var(--font-serif);
+    }
+
+    .coupon-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+      text-align: left;
+    }
+
+    .coupon-chip {
+      background: #ffffff;
+      border: 1.5px solid var(--blush-200);
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .coupon-chip-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .coupon-chip-top i {
+      color: var(--blush-500);
+      font-size: 1rem;
+    }
+
+    .coupon-chip-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .coupon-chip:hover, .coupon-chip.selected {
+      background: #fff5f8;
+      border-color: var(--blush-500);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(229, 115, 153, 0.2);
+    }
+
+    .coupon-chip.selected {
+      border-width: 2px;
+    }
+
+    .treat-claim-btn {
+      background: linear-gradient(135deg, #f48fb1 0%, #d85c80 100%);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(216, 92, 128, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      touch-action: manipulation;
+    }
+
+    .treat-claim-btn:hover, .treat-claim-btn:active {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 26px rgba(216, 92, 128, 0.45);
+    }
+
     /* ==========================================================================
        VIP GUEST SHARE FAB & MODAL
        ========================================================================== */
@@ -631,10 +875,11 @@
       font-size: 0.95rem;
       cursor: pointer;
       z-index: 90;
-      display: none; /* Displayed only for Sukanya */
+      display: none;
       align-items: center;
       gap: 10px;
       transition: transform 0.2s ease;
+      touch-action: manipulation;
     }
 
     .vip-share-fab:hover { transform: scale(1.05); }
@@ -644,7 +889,7 @@
       inset: 0;
       background: rgba(61, 44, 53, 0.6);
       backdrop-filter: blur(8px);
-      z-index: 200;
+      z-index: 1000;
       display: none;
       align-items: center;
       justify-content: center;
@@ -706,57 +951,14 @@
       word-break: break-all;
     }
 
-    /* Wish Button & Celebration */
-    .celebration-section {
-      text-align: center;
-      padding: 60px 20px 30px;
-    }
-
-    .wish-btn {
-      background: linear-gradient(135deg, #f48fb1, #d85c80);
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
-      padding: 16px 36px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(216, 92, 128, 0.35);
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .wish-btn:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 16px 32px rgba(216, 92, 128, 0.45);
-    }
-
-    /* Music Toggle */
-    .music-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 90;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--blush-500);
-      font-size: 1.1rem;
-    }
-
     @keyframes floatEnvelope {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     @keyframes fadeIn {
@@ -768,7 +970,11 @@
       .envelope-wrapper { width: 280px; height: 195px; }
       .envelope-flap { border-left-width: 140px; border-right-width: 140px; border-top-width: 105px; }
       .envelope-seal { top: 85px; width: 48px; height: 48px; }
-      .letter-paper { padding: 28px 20px; }
+      .letter-paper { padding: 32px 20px; }
+      .vip-treat-fab { bottom: 20px; left: 16px; padding: 6px 12px 6px 8px; }
+      .fab-gift-text { font-size: 0.8rem; }
+      .vip-share-fab { bottom: 20px; right: 16px; padding: 12px 18px; font-size: 0.85rem; }
+      .coupon-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -776,12 +982,6 @@
 
   <!-- Ambient Particle Canvas -->
   <canvas id="ambient-canvas"></canvas>
-
-  <!-- Background Music Player -->
-  <button class="music-btn" id="musicToggleBtn" title="Toggle Music"><i class="fa-solid fa-music"></i></button>
-  <audio id="bgAudio" loop>
-    <source src="https://actions.google.com/sounds/v1/water/rain_heavy.ogg" type="audio/ogg" />
-  </audio>
 
   <!-- ======================================================================
        1. GATEKEEPER / LOCK SCREEN (Unauthenticated Visitors)
@@ -829,7 +1029,9 @@
     <!-- Popup Decrypted Letter Modal -->
     <div class="letter-modal-overlay" id="letterModal">
       <div class="letter-paper">
-        <button class="modal-close-btn" id="closeLetterBtn"><i class="fa-solid fa-xmark"></i></button>
+        <button class="modal-close-btn" id="closeLetterBtn" aria-label="Close Letter">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
         <div class="letter-header">
           <h2 id="decryptedLetterTitle">Dearest Sukanya,</h2>
           <div id="decryptedLetterDate" style="font-size: 0.9rem; color: var(--rose-gold);">A Wish Made Just For You</div>
@@ -928,7 +1130,7 @@
       </div>
     </section>
 
-    <!-- Photo Memory Lane (Rendered into Canvas Shields) -->
+    <!-- Photo Memory Lane -->
     <section class="gallery-section">
       <span class="cursive-tag" style="text-align: center;">Cherished Moments</span>
       <h2 class="section-title">Our Memory Lane</h2>
@@ -950,7 +1152,75 @@
   </div>
 
   <!-- ======================================================================
-       3. VIP IN-APP GUEST LINK GENERATOR (Exclusively for Sukanya)
+       3. SPOTABLE & CUTE VIP FLOATING TREAT WIDGET & MODAL
+       ====================================================================== -->
+  <!-- Cute Floating Button (Bottom-Left) -->
+  <button class="vip-treat-fab" id="vipTreatFab" aria-label="Open Birthday Treat Pass">
+    <div class="fab-gift-icon-bubble">🎁</div>
+    <span class="fab-gift-text">Birthday Treats</span>
+    <span class="fab-gift-badge">10k</span>
+  </button>
+
+  <!-- Interactive Treat Modal / Coupon Book -->
+  <div class="treat-modal-overlay" id="treatModal">
+    <div class="treat-modal-box">
+      <button class="modal-close-btn" id="closeTreatModalBtn" aria-label="Close Treats"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="treat-modal-badge">
+        <i class="fa-solid fa-gift"></i> Sukanya's Gift Coupons
+      </div>
+      <h3 class="treat-modal-title">Your Birthday Pass</h3>
+      <p class="treat-modal-sub">Pick any treat below to claim it immediately!</p>
+
+      <div class="points-mini-box">
+        <span style="font-size: 0.78rem; text-transform: uppercase; color: var(--rose-gold); font-weight: 700;">Available Pampering Points</span>
+        <div class="points-mini-amount">10,000 <span style="font-size: 1rem; font-family: var(--font-sans);">PTS</span></div>
+        <span style="font-size: 0.76rem; color: #6d4b5a; font-style: italic;">✨ 0% Terms & Conditions • 100% Pampering</span>
+      </div>
+
+      <!-- Playful Coupon Grid -->
+      <div class="coupon-grid" id="couponGrid">
+        <div class="coupon-chip selected" data-perk="A Massive Foodie Feast (Your favorite restaurant, my treat!) 🍕🍔">
+          <div class="coupon-chip-top">
+            <i class="fa-solid fa-pizza-slice"></i>
+            <span>Foodie Feast</span>
+          </div>
+          <div class="coupon-chip-desc">Your favorite spot, zero cooking, and I pick up the bill!</div>
+        </div>
+
+        <div class="coupon-chip" data-perk="Chai & Late Night Long Drive (Windows down, your playlist only!) 🚗☕">
+          <div class="coupon-chip-top">
+            <i class="fa-solid fa-car-side"></i>
+            <span>Chai & Long Drive</span>
+          </div>
+          <div class="coupon-chip-desc">Cool breeze, your favorite songs, and endless laughs.</div>
+        </div>
+
+        <div class="coupon-chip" data-perk="Midnight Sweet Craving Run (Ice cream & desserts galore!) 🍨🍰">
+          <div class="coupon-chip-top">
+            <i class="fa-solid fa-ice-cream"></i>
+            <span>Midnight Desserts</span>
+          </div>
+          <div class="coupon-chip-desc">Extra scoops or pastries whenever you crave them!</div>
+        </div>
+
+        <div class="coupon-chip" data-perk="The 'You Win Any Argument' Pass (I will admit you are right!) 👑✨">
+          <div class="coupon-chip-top">
+            <i class="fa-solid fa-crown"></i>
+            <span>'You Win' Pass</span>
+          </div>
+          <div class="coupon-chip-desc">Redeemable whenever you need me to agree instantly!</div>
+        </div>
+      </div>
+
+      <button type="button" class="treat-claim-btn" id="claimTreatBtn">
+        <i class="fa-brands fa-whatsapp" style="font-size: 1.25rem;"></i> Claim Treat on WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       4. VIP IN-APP GUEST LINK GENERATOR (Bottom-Right)
        ====================================================================== -->
   <button class="vip-share-fab" id="vipShareFab">
     <i class="fa-solid fa-user-plus"></i> Share With Loved Ones
@@ -958,7 +1228,7 @@
 
   <div class="share-modal-overlay" id="shareModal">
     <div class="share-box">
-      <button class="modal-close-btn" id="closeShareModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close-btn" id="closeShareModalBtn" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
       <h3>Invite a Loved One</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem;">Generate a personal invitation link for friends or family.</p>
       
@@ -982,7 +1252,10 @@
      * =========================================================================
      */
     const CONFIG = {
-      // Paste your Discord Webhook URL below
+      // Set your WhatsApp phone number with country code (e.g., "919876543210" for India)
+      WHATSAPP_PHONE_NUMBER: "918147633675",
+
+      // Discord Webhook URL for Telemetry
       DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1538566885245980717/6DnKDyOaKYA3Hn10aMS34b4y-lFRhEiHX2pAMNnMZIeKMI8BQgmDJJeOCUxpHRctpfT3",
 
       // Master Secret Key (Expected in Sukanya's link: ?key=sukanya_2026)
@@ -1114,7 +1387,7 @@
             country = data.country_name || "Unknown";
           }
         } catch (e) {
-          // Silent fallback on adblocker
+          // Silent fallback
         }
 
         const embedColor = isGranted 
@@ -1293,13 +1566,14 @@
         if (guestToken === expectedToken) {
           isGuest = true;
           displayName = guestName;
-          if (guestKey) decryptionKey = guestKey; // Automatically decrypts vault for invited guests
+          if (guestKey) decryptionKey = guestKey;
         }
       }
 
       const lockScreen = document.getElementById("lock-screen");
       const appRoot = document.getElementById("appRoot");
       const vipShareFab = document.getElementById("vipShareFab");
+      const vipTreatFab = document.getElementById("vipTreatFab");
       const guestGreetingBadge = document.getElementById("guestGreetingBadge");
       const guestDisplayName = document.getElementById("guestDisplayName");
 
@@ -1310,6 +1584,7 @@
 
         if (isSukanya) {
           vipShareFab.style.display = "inline-flex";
+          if (vipTreatFab) vipTreatFab.style.display = "inline-flex";
           TelemetryService.reportVisit("Sukanya (VIP)", "Sukanya", true);
         } else {
           guestGreetingBadge.style.display = "inline-flex";
@@ -1382,10 +1657,78 @@
         setTimeout(() => letterModal.classList.add("active"), 600);
       });
 
-      closeLetterBtn.addEventListener("click", () => letterModal.classList.remove("active"));
+      const handleCloseLetter = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        letterModal.classList.remove("active");
+      };
+
+      closeLetterBtn.addEventListener("click", handleCloseLetter);
+      closeLetterBtn.addEventListener("touchend", handleCloseLetter);
+
       letterModal.addEventListener("click", (e) => {
         if (e.target === letterModal) letterModal.classList.remove("active");
       });
+
+      /* ------------------------------------------------------------------------
+         VIP BIRTHDAY TREAT WIDGET & MODAL LOGIC
+         ------------------------------------------------------------------------ */
+      const treatModal = document.getElementById("treatModal");
+      const closeTreatModalBtn = document.getElementById("closeTreatModalBtn");
+
+      if (vipTreatFab) {
+        vipTreatFab.addEventListener("click", () => treatModal.classList.add("active"));
+      }
+
+      const handleCloseTreatModal = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        treatModal.classList.remove("active");
+      };
+
+      if (closeTreatModalBtn) {
+        closeTreatModalBtn.addEventListener("click", handleCloseTreatModal);
+        closeTreatModalBtn.addEventListener("touchend", handleCloseTreatModal);
+      }
+
+      treatModal.addEventListener("click", (e) => {
+        if (e.target === treatModal) treatModal.classList.remove("active");
+      });
+
+      // Playful Coupon Chip Selection
+      let selectedTreat = "A Massive Foodie Feast (Your favorite restaurant, my treat!) 🍕🍔";
+      const couponChips = document.querySelectorAll(".coupon-chip");
+      couponChips.forEach(chip => {
+        chip.addEventListener("click", () => {
+          couponChips.forEach(c => c.classList.remove("selected"));
+          chip.classList.add("selected");
+          selectedTreat = chip.getAttribute("data-perk");
+        });
+      });
+
+      // Playful WhatsApp Treat Claim Handler
+      const claimTreatBtn = document.getElementById("claimTreatBtn");
+      if (claimTreatBtn) {
+        claimTreatBtn.addEventListener("click", () => {
+          if (typeof confetti === "function") {
+            confetti({
+              particleCount: 90,
+              spread: 80,
+              origin: { y: 0.7 },
+              colors: ["#f48fb1", "#ffd0dc", "#d4af37", "#ffffff"]
+            });
+          }
+          const msg = encodeURIComponent(
+            `Hey! 🎂🥳 I am officially redeeming my Birthday Points for: ${selectedTreat}! You cannot say no! 😉🎁`
+          );
+          const waUrl = `https://wa.me/${CONFIG.WHATSAPP_PHONE_NUMBER}?text=${msg}`;
+          setTimeout(() => window.open(waUrl, "_blank"), 300);
+        });
+      }
 
       // Flip Cards
       document.querySelectorAll(".flip-card").forEach(card => {
@@ -1396,23 +1739,6 @@
       document.getElementById("wishBtn").addEventListener("click", () => {
         if (typeof confetti === "function") {
           confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
-        }
-      });
-
-      // Audio Toggle
-      const musicBtn = document.getElementById("musicToggleBtn");
-      const bgAudio = document.getElementById("bgAudio");
-      let isPlaying = false;
-      musicBtn.addEventListener("click", () => {
-        if (!isPlaying) {
-          bgAudio.play().then(() => {
-            isPlaying = true;
-            musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-          }).catch(() => {});
-        } else {
-          bgAudio.pause();
-          isPlaying = false;
-          musicBtn.innerHTML = '<i class="fa-solid fa-music"></i>';
         }
       });
 
@@ -1433,7 +1759,17 @@
       const copyGuestLinkBtn = document.getElementById("copyGuestLinkBtn");
 
       vipShareFab.addEventListener("click", () => shareModal.classList.add("active"));
-      closeShareModalBtn.addEventListener("click", () => shareModal.classList.remove("active"));
+      
+      const handleCloseShareModal = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        shareModal.classList.remove("active");
+      };
+
+      closeShareModalBtn.addEventListener("click", handleCloseShareModal);
+      closeShareModalBtn.addEventListener("touchend", handleCloseShareModal);
 
       createGuestPassBtn.addEventListener("click", () => {
         const name = guestNameInput.value.trim();
