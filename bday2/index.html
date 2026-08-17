@@ -148,7 +148,6 @@
       z-index: 2;
       max-width: 1100px;
       margin: 0 auto;
-      /* Generous bottom padding so floating button never covers content */
       padding: 20px 20px calc(120px + env(safe-area-inset-bottom, 0px));
     }
 
@@ -438,7 +437,7 @@
     }
 
     /* ==========================================================================
-       REASONS I LOVE YOU (3D FLIP CARDS)
+       6 THINGS ABOUT YOU (3D FLIP CARDS)
        ========================================================================== */
     .reasons-section {
       padding: 60px 0 40px;
@@ -452,7 +451,7 @@
     }
 
     .flip-card {
-      height: 275px;
+      height: 280px;
       perspective: 1000px;
       cursor: pointer;
       touch-action: manipulation;
@@ -482,7 +481,7 @@
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       border-radius: var(--radius-lg);
-      padding: 28px 22px;
+      padding: 26px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -496,28 +495,28 @@
     }
 
     .card-icon-circle {
-      width: 68px;
-      height: 68px;
+      width: 66px;
+      height: 66px;
       border-radius: 50%;
       background: var(--blush-100);
       color: var(--blush-500);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
-      margin-bottom: 16px;
+      font-size: 1.65rem;
+      margin-bottom: 14px;
       box-shadow: 0 6px 16px rgba(229, 115, 153, 0.15);
     }
 
     .flip-card-front h3 {
       font-family: var(--font-serif);
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: var(--text-main);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .card-hint {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--rose-gold);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -532,7 +531,7 @@
 
     .flip-card-back p {
       font-family: var(--font-serif);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       line-height: 1.6;
       color: #4a343e;
       font-style: italic;
@@ -959,90 +958,96 @@
       </div>
     </div>
 
-    <!-- Reasons I Love You Grid -->
+    <!-- 6 Things That Make You, You (Updated with your traits and lovable quirks) -->
     <section class="reasons-section">
-      <span class="cursive-tag" style="text-align: center;">Little Reminders</span>
-      <h2 class="section-title">Six Things I Adore About You</h2>
-      <p class="section-subtitle">Tap each card to reveal what makes you so irreplaceable.</p>
+      <span class="cursive-tag" style="text-align: center;">The Real & The Raw</span>
+      <h2 class="section-title">Six Things That Make You, You</h2>
+      <p class="section-subtitle">The deep qualities I cherish, plus the little quirks I put up with! Tap each to flip.</p>
       
       <div class="reasons-grid">
+        <!-- 1. Comfortable -->
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-face-smile-beam"></i></div>
-              <h3>Your Radiant Smile</h3>
+              <div class="card-icon-circle"><i class="fa-solid fa-shield-heart"></i></div>
+              <h3>My Comfortable Space</h3>
               <span class="card-hint">Flip Me</span>
             </div>
             <div class="flip-card-back">
-              <p>"The way your face lights up when you're genuinely happy brings warmth to everyone around you."</p>
+              <p>"With you, I feel completely at ease. You make me feel genuinely comfortable, grounded, and peaceful without even trying."</p>
             </div>
           </div>
         </div>
 
+        <!-- 2. Conversations -->
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-hand-holding-heart"></i></div>
-              <h3>Your Golden Heart</h3>
-              <span class="card-hint">Flip Me</span>
-            </div>
-            <div class="flip-card-back">
-              <p>"You treat everyone with such gentle empathy and quiet kindness. You make the world softer."</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-              <h3>Your Laugh</h3>
-              <span class="card-hint">Flip Me</span>
-            </div>
-            <div class="flip-card-back">
-              <p>"Hearing your genuine laugh is my favorite sound in the world. It turns ordinary days into memories."</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-mug-hot"></i></div>
+              <div class="card-icon-circle"><i class="fa-solid fa-comments"></i></div>
               <h3>Our Conversations</h3>
               <span class="card-hint">Flip Me</span>
             </div>
             <div class="flip-card-back">
-              <p>"Those simple talks where time slips away and we can share everything and anything."</p>
+              <p>"Talking with you is effortless. From random silliness to deep thoughts, our talks are always my favorite part of the day."</p>
             </div>
           </div>
         </div>
 
+        <!-- 3. Beauty beyond the surface & in any dress -->
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-compass"></i></div>
-              <h3>Your Strength</h3>
+              <div class="card-icon-circle"><i class="fa-solid fa-sparkles"></i></div>
+              <h3>Beauty Beyond Looks</h3>
               <span class="card-hint">Flip Me</span>
             </div>
             <div class="flip-card-back">
-              <p>"I admire how determined you are, facing every challenge with quiet courage and grace."</p>
+              <p>"You look effortlessly gorgeous in whatever you wear, but it was never just about looks—it's who you are inside that truly won me over."</p>
             </div>
           </div>
         </div>
 
+        <!-- 4. Real, grounded, no games / victim card -->
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <div class="card-icon-circle"><i class="fa-solid fa-infinity"></i></div>
-              <h3>Just Being You</h3>
+              <div class="card-icon-circle"><i class="fa-solid fa-gem"></i></div>
+              <h3>Pure & Authentic</h3>
               <span class="card-hint">Flip Me</span>
             </div>
             <div class="flip-card-back">
-              <p>"You don't have to try to be extraordinary; you simply are, just by being yourself."</p>
+              <p>"You're honest, sensible, and self-respecting. You never play drama or victim cards—you always keep it 100% genuine."</p>
             </div>
           </div>
         </div>
+
+        <!-- 5. Ignoring / zoning out (Playful Quirk) -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-ghost"></i></div>
+              <h3>The "Ignore" Mode</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"Those moments when you randomly zone out into your own world and act like you didn't hear me... Annoying, yet undeniably you!"</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Cute fears + Lazy mode (Playful Quirk) -->
+        <!-- <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="card-icon-circle"><i class="fa-solid fa-couch"></i></div>
+              <h3>Scaredy-Cat & Cozy Sloth</h3>
+              <span class="card-hint">Flip Me</span>
+            </div>
+            <div class="flip-card-back">
+              <p>"Your tiny fears that make you panic over small things, paired with your world-class talent for supreme laziness on cozy days."</p>
+            </div>
+          </div>
+        </div> -->
       </div>
     </section>
 
@@ -1601,7 +1606,7 @@
         });
       });
 
-      // WhatsApp Treat Claim Handler
+      // Playful WhatsApp Treat Claim Handler
       const claimTreatBtn = document.getElementById("claimTreatBtn");
       if (claimTreatBtn) {
         claimTreatBtn.addEventListener("click", () => {
@@ -1633,7 +1638,7 @@
         }
       });
 
-      // Anti-Theft: Disable Context Menu on Media
+      // Anti-Theft: Disable Context Menu on MediaM
       document.addEventListener("contextmenu", (e) => {
         if (e.target.closest(".protected-media")) e.preventDefault();
       });
